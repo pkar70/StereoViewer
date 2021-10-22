@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="StereoViewer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StereoViewer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="Page_SizeChanged" Loaded="Page_Loaded">
+
+    <Grid x:Name="uiGrid" Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="18" x:Uid="uiMainTitle" HorizontalAlignment="Center" Text="Stereoscopic Cardbox Viewer" Margin="0,0,0,15" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Dir:" Margin="0,0,10,0"/>
+            <TextBox x:Name="uiDirectory" Grid.Column="1"/>
+            <Button x:Name="uiBrowse" Content="..." Grid.Column="2"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" x:Name="uiColPreview"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                <ListView x:Name="uiListItems" Margin="5,5,5,5">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tapped="uiFile_Tapped">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding imageLeft, Mode=OneWay }" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding bInSlideshow, Mode=TwoWay }" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image x:Name="uiPreview" />
+                <Button Grid.Row="1" Margin="0,10,0,10" HorizontalAlignment="Center" Content="Start" Click="uiRun_Click" />
+            </Grid>
+        </Grid>
+    </Grid>
+
+
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal" >
+            <AppBarButton Icon="OpenFile" x:Uid="uiMainOpen" Label="Dir" Click="uiBrowse_Click" />
+            <AppBarButton Icon="AllApps" Label="Select"  x:Uid="uiMainSelect">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="none" x:Uid="uiMainNone" Click="uiSelectNone_Click" />
+                        <MenuFlyoutItem Text="all"  x:Uid="uiMainAll" Click="uiSelectAll_Click"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Play" Label="Start" Click="uiRun_Click" />
+            <AppBarButton Icon="Setting" Label="Settings" x:Uid="uiMainSett" Click="uiSetup_Click" />
+        </CommandBar>
+
+    </Page.BottomAppBar>
+
+</Page>
